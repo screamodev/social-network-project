@@ -1,7 +1,9 @@
 .app-wrapper {
+  font-family: 'Playfair Display', Arial, Helvetica, sans-serif;
+
   width: 1170px;
   margin: 0 auto;
-  
+
   display: grid;
 
   grid-template-areas:
@@ -13,20 +15,7 @@
   grid-gap: 10px;
 }
 
-.header {
-  grid-area: h;
-  background-color: orange;
-}
-
-.header img {
-  width: 60px;
-}
-
-.nav {
-  grid-area: n;
-  background-color: orange;
-}
-
-.content {
-  grid-area: c;
-}
+.app-wrapper-content {
+    grid-area: c;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  }
