@@ -1,0 +1,23 @@
+.nav {
+    grid-area: n;
+    background-color: orange;
+    font-size: 22px;
+  }
+
+  .item {
+    list-style: none;
+  }
+
+  .item a {
+    list-style: none;
+    text-decoration: none;
+    color: black;
+  }
+
+  .item a:hover {
+    color: white;
+  }
+
+  .item a.active {
+    color: white;
+  }
