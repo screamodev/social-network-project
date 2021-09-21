@@ -2,10 +2,9 @@ import React from "react";
 import classes from "./Dialogs.module.css";
 import DialogItem from "./DialogItem/DialogItem";
 import MessageItem from "./MessageItem/MessageItem";
+import { Redirect } from "react-router";
 
 const Dialogs = (props) => {
-  let state = props.state;
-
   let dialogsElements = props.dialogsData.map((dialog) => (
     <DialogItem name={dialog.name} id={dialog.id} />
   ));
@@ -13,7 +12,7 @@ const Dialogs = (props) => {
     <MessageItem message={message.message} id={message.id} />
   ));
 
-  let newMessageBody = state.newMessageBody;
+  let newMessageBody = props.newMessageBody;
 
   let onSendMessageClick = () => {
     // props.store.dispatch(sendMessageCreator());
@@ -26,6 +25,10 @@ const Dialogs = (props) => {
     //props.store.dispatch(updateNewMessageBodyCreator(body));
   };
 
+  if (!props.isLogin) {
+    return <Redirect to={'/login'}/> //Хуйня,как для функ компоненты
+  }
+  
   return (
     <div>
       <div className={classes.dialogs}>

@@ -1,33 +1,33 @@
 import React from "react";
-import classes from "./Dialogs.module.css";
-import DialogItem from "./DialogItem/DialogItem";
-import MessageItem from "./MessageItem/MessageItem";
 import {
   updateNewMessageBodyCreator,
   sendMessageCreator,
 } from "../../redux/dialogsReducer";
 import Dialogs from "./Dialogs";
+import { connect } from "react-redux";
+import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import { compose } from "redux";
 
-const DialogsContainer = (props) => {
-  let state = props.store.getState();
-
-  let sendMessage = () => {
-    props.store.dispatch(sendMessageCreator());
+let mapStateToProps = (state) => {
+  return {
+    dialogsData: state.dialogsPage.dialogsData,
+    messagesData: state.dialogsPage.messagesData,
+    newMessageBody: state.dialogsPage.newMessageBody,
   };
-
-  let updateNewMessageBody = (body) => {
-    props.store.dispatch(updateNewMessageBodyCreator(body));
-  };
-
-  return (
-    <Dialogs
-      sendMessage={sendMessage}
-      updateNewMessageBody={updateNewMessageBody}
-      dialogsData={state.dialogsPage.dialogsData}
-      messagesData={state.dialogsPage.messagesData}
-      state={state.dialogsPage}
-    />
-  );
 };
 
-export default DialogsContainer;
+let mapDispatchToProps = (dispatch) => {
+  return {
+    updateNewMessageBody: (body) => {
+      dispatch(updateNewMessageBodyCreator(body));
+    },
+    sendMessage: () => {
+      dispatch(sendMessageCreator());
+    },
+  };
+};
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withAuthRedirect
+)(Dialogs);

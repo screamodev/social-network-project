@@ -1,0 +1,38 @@
+.usersPhoto {
+  
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+
+}
+
+.usersWrapper {
+  
+  padding: 20px;
+  display: flex;
+  border: 2px solid orange;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.usersWrapper:hover {
+  border: 4px solid orange;
+}
+
+.usersButtonsHolder {
+  text-align: center;
+}
+
+.infoHolder {
+  margin-left: 10px;
+}
+
+.pagesHolder {
+  width: 200px;
+  overflow: hidden;
+}
+
+.selectedPage {
+ font-weight: bold;
+ 
+}
