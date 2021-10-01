@@ -28,10 +28,14 @@ export const usersAPI = {
 };
 
 export const authAPI = {
+  login(email, password, rememberMe = false) {
+    return instance.post(`auth/login`, { email, password, rememberMe });
+  },
+  logout() {
+    return instance.delete(`auth/login`);
+  },
   me() {
-    return instance.get(`auth/me`).then((response) => {
-      return response.data;
-    });
+    return instance.get(`auth/me`);
   },
 };
 
@@ -41,4 +45,11 @@ export const profileAPI = {
       return response.data;
     });
   },
+  getUserStatus(userId) {
+    return instance.get(`profile/status/` + userId);
+  },
+  updateUserStatus(status) {
+    return instance.put(`profile/status`, { status });
+  },
 };
+

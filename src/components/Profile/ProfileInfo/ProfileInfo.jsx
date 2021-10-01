@@ -1,10 +1,13 @@
 import React from "react";
 import PreLoader from "../../common/preLoader/preLoader";
-import Profilestatus from "./ProfileStatus"
+import userPhoto from "../../../assets/images/default_userAvatar.png";
+import classes from "./ProfileInfo.module.css";
+import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 
-const ProfileInfo = (props) => {
 
-if (!props.profile) {
+const ProfileInfo = ({profile, status, updateUserStatus}) => {
+
+if (!profile) {
   return <PreLoader />
 }
 
@@ -17,10 +20,10 @@ if (!props.profile) {
         ></img> */}
       </div>
       <div>
-        <img src={props.profile.photos.large}/>
-        <Profilestatus status={"Hello"}/>
-        <div>name: {props.profile.fullName}</div>
-        <div>about: {props.profile.aboutMe}</div>
+        <img src={profile.photos.large != null ? profile.photos.large : userPhoto} className={classes.userProfileImg}/>
+        <ProfileStatusWithHooks status={status} updateUserStatus={updateUserStatus}/>
+        <div>name: {profile.fullName}</div>
+        <div>about: {profile.aboutMe || "none"}</div>
       </div>
     </div>
   );

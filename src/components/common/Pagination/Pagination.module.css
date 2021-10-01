@@ -1,0 +1,24 @@
+.selectedPage {
+  font-weight: bold;
+  
+ }
+
+ .pagination {
+   margin: 10px;
+   text-align:center
+  }
+
+  .pageNumber {
+    padding:3px;
+    border: 1px solid grey;
+  }
+
+  .pageNumber.selectedPage {
+    font-weight: bold;
+    border-color: black;
+  }
+
+  .setButton {
+    border-radius: 30px;
+    
+  }

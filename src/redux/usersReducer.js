@@ -1,4 +1,5 @@
 import { usersAPI } from "../components/api/api";
+import { updateObjectInArray } from "../utils/object-helpers";
 
 const FOLLOW = "FOLlOW";
 const UNFOLLOW = "UNFOLLOW";
@@ -11,7 +12,7 @@ const TOGGLE_IS_FOLLOWING_PROGRESS = "TOGGLE_IS_FOLLOWING_PROGRESS";
 
 let initialState = {
   usersData: [],
-  pageSize: 5,
+  pageSize: 10,
   totalUsersCount: 0,
   currentPage: 1,
   isFetching: true,
@@ -23,23 +24,13 @@ const usersReducer = (state = initialState, action) => {
     case FOLLOW:
       return {
         ...state,
-        usersData: state.usersData.map((user) => {
-          if (user.id === action.userId) {
-            return { ...user, followed: true };
-          }
-          return user;
-        }),
+        usersData: updateObjectInArray(state.usersData, action.userId, 'id', {followed:true})
       };
 
     case UNFOLLOW:
       return {
         ...state,
-        usersData: state.usersData.map((user) => {
-          if (user.id === action.userId) {
-            return { ...user, followed: false };
-          }
-          return user;
-        }),
+        usersData: updateObjectInArray(state.usersData, action.userId, 'id', {followed:false})
       };
 
     case SET_USERS:
@@ -97,32 +88,42 @@ export const toggleFollowingProgress = (isFetching, userId) => ({
 
 //sanki
 
-export const getUsers = (currentPage, pageSize) => (dispatch) => {
+export const requestUsers = (page, pageSize) => async (dispatch) => {
   dispatch(toggleIsFetching(true));
-  usersAPI.getUsers(currentPage, pageSize).then((data) => {
-    dispatch(toggleIsFetching(false));
-    dispatch(setUsers(data.items));
-    dispatch(setTotalUsersCount(data.totalCount));
-  });
+  let data = await usersAPI.getUsers(page, pageSize);
+  dispatch(toggleIsFetching(false));
+  dispatch(setCurrentPage(page));
+  dispatch(setUsers(data.items));
+  dispatch(setTotalUsersCount(data.totalCount));
 };
-export const follow = (userId) => (dispatch) => {
+
+export const follow = (userId) => async (dispatch) => {
+  //функция высшего порядка возвращает санку, а санка через замыкание стучится к данным
+  let apiMethod = usersAPI.follow.bind(usersAPI);
+  let actionCreator = followSuccess;
+  followUnfollowFlow(dispatch, userId, apiMethod, actionCreator);
+};
+
+export const unfollow = (userId) => async (dispatch) => {
+  let apiMethod = usersAPI.unfollow.bind(usersAPI);
+  let actionCreator = unfollowSuccess;
+
+  followUnfollowFlow(dispatch, userId, apiMethod, actionCreator);
+};
+
+const followUnfollowFlow = async (
+  dispatch,
+  userId,
+  apiMethod,
+  actionCreator
+) => {
   dispatch(toggleFollowingProgress(true, userId));
 
-  usersAPI.follow(userId).then((data) => {
-    if (data.resultCode == 0) {
-      dispatch(followSuccess(userId));
-    }
-    dispatch(toggleFollowingProgress(false, userId));
-  });
+  let data = await apiMethod(userId);
+  if (data.resultCode == 0) {
+    dispatch(actionCreator(userId));
+  }
+  dispatch(toggleFollowingProgress(false, userId));
 };
-export const unfollow = (userId) => (dispatch) => {
-  dispatch(toggleFollowingProgress(true, userId));
 
-  usersAPI.unfollow(userId).then((data) => {
-    if (data.resultCode == 0) {
-      dispatch(unfollowSuccess(userId));
-    }
-    dispatch(toggleFollowingProgress(false, userId));
-  });
-};
 export default usersReducer;
