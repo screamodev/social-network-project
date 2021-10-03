@@ -25,6 +25,6 @@ let reducers = combineReducers({
 
 //let store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
-window.__store__ = store;
+window.store = store;
 
 export default store;

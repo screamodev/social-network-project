@@ -5,7 +5,7 @@ import Navbar from "./components/NavBar/Navbar";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter,HashRouter, Route } from "react-router-dom";
 import UsersContainer from "./components/Users/UsersContainer";
 import Gallery from "./components/Gallery/Gallery";
 import HeaderContainer from "./components/Header/HeaderContainer";
@@ -37,7 +37,7 @@ class App extends Component {
   render() {
     if (!this.props.initialized) {
       return <PreLoader />;
-    }
+    } else
     return (
       <div className="app-wrapper">
         <HeaderContainer />
@@ -71,11 +71,11 @@ let AppContainer = compose(
 
 let SocialNetworkApp = (props) => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Provider store={store}>
         <AppContainer />
       </Provider>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 

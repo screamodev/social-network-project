@@ -1,5 +1,3 @@
-import { authAPI } from "../components/api/api";
-import { stopSubmit } from "redux-form";
 import { getAuthUserData } from "./authReducer";
 
 const INITIALIZED_SUCCESS = "INITIALIZED-SUCCESS";
@@ -8,10 +6,10 @@ const INITIALIZED_SUCCESS = "INITIALIZED-SUCCESS";
 
 let initialState = {
   initialized: false,
-  email: null,
-  login: null,
-  isLogin: false,
-  isFetching: true,
+  // email: null,
+  // login: null,
+  // isLogin: false,
+  // isFetching: true,
 };
 
 const appReducer = (state = initialState, action) => {

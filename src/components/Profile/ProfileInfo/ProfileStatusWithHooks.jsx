@@ -27,7 +27,7 @@ useEffect(()=> {
       {!editMode && (
         <div>
           <span onDoubleClick={activateEditMode}>
-            status: {props.status || "none"}
+            <b>status:</b> {props.status || "none"}
           </span>
         </div>
       )}
